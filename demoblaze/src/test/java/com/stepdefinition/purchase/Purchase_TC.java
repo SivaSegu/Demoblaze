@@ -1,10 +1,9 @@
 package com.stepdefinition.purchase;
 
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
-
 
 import com.pages.BasePage;
 import com.pages.PhonesPage;
@@ -12,90 +11,89 @@ import com.pages.PlaceOrder;
 import com.utility.ScreenShot;
 import com.wrapperclass.BaseClass;
 
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 public class Purchase_TC extends BaseClass {
-	WebDriver driver=null;
-	PlaceOrder placeOrder;
-	PhonesPage phonePage;
-	BasePage basePage;
-	ScreenShot screenShot;
+	WebDriver driver = null;
+	PlaceOrder placeorder;
+	PhonesPage phonepage;
+	BasePage basepage;
+	ScreenShot screenshot;
 	final static Logger logger = LogManager.getLogger(Purchase_TC.class.getName());
 
 	@Given("^user click on desired product$")
-    public void user_click_on_desired_product() throws Throwable {
-		driver= launchApplication("chrome");
+	public void user_click_on_desired_product() throws Throwable {
+		driver = launchApplication("chrome");
 		logger.info("Demoblaze site launches");
 		launchSite();
-		phonePage = new PhonesPage(driver);   
-		basePage=new BasePage(driver);
-		placeOrder = new PlaceOrder(driver);
-	 	screenShot =new ScreenShot(driver);
-		Thread.sleep(5000);
+		phonepage = new PhonesPage(driver);
+		basepage = new BasePage(driver);
+		placeorder = new PlaceOrder(driver);
+		screenshot = new ScreenShot(driver);
+		implicitWait();
 		logger.info("Select a product");
-		phonePage.selectMobile();
+		phonepage.selectMobile();
 
-    
-    }
+	}
 
-    @Then("^789user click on add to cart$")
-    public void user_click_on_add_to_cart() throws Throwable {
-        Thread.sleep(3000);
-        logger.info("add product to cart");
-    	phonePage.cart();
-    	
-    }
+	@When("^user click on add to cart$")
+	public void user_click_on_add_to_cart() throws Throwable {
 
-    @Then("^handle window alert$")
-    public void handle_window_alert() throws Throwable {
-        Thread.sleep(5000);
-        logger.debug("Window Alert");
-        windowAlert();
-     
-    }
+		logger.info("add product to cart");
+		phonepage.cart();
+		Thread.sleep(1000);
+		logger.debug("Window Alert");
+		String text = driver.switchTo().alert().getText();
+		Assert.assertEquals("Product added", text);
+		windowAlert();
 
-    @Then("^789click on cart page$")
-    public void click_on_cart_page() throws Throwable {
-        basePage.cart();
-    }
+	}
 
-    @Then("^click on place order$")
-    public void click_on_place_order() throws Throwable {
-    	Thread.sleep(5000);
-    	logger.info("Order product");
-    	placeOrder.order();
-    }
+	@And("^move to cart page$")
+	public void click_on_cart_page() throws Throwable {
+		Assert.assertFalse(false);
+		basepage.cart();
+	}
 
-    @Then("^fill the details$")
-    public void fill_the_details() throws Throwable {
-    	Thread.sleep(3000);
-    	logger.trace("Fill all the details");
-    	placeOrder.name();
-    	placeOrder.country();
-    	placeOrder.city();
-    	placeOrder.creditCard();
-    	placeOrder.month();
-    	placeOrder.year();
-        
-    }
+	@And("^click on place order$")
+	public void click_on_place_order() throws Throwable {
+		Thread.sleep(1000);
+		logger.info("Order product");
+		placeorder.order();
+	}
 
-    @Then("^click on purchase$")
-    public void click_on_purchase() throws Throwable {
-    	Thread.sleep(3000);
-    	logger.info("Purchase product");
-    	placeOrder.purchase();
-    	
-    }
+	@And("^fill the details$")
+	public void fill_the_details() throws Throwable {
 
-    @Then("^click on ok$")
-    public void click_on_ok() throws Throwable {
-        Thread.sleep(2000);
-        screenShot.takeSnapShot("C:\\Users\\segus\\eclipse-workspace\\demoblaze\\src\\test\\resources\\Screenshot\\Purchase.png");
-    	placeOrder.confirmOrder();
-    	quit();
-    	
-    	
-      
-    }
+		logger.trace("Fill all the details");
+		Assert.assertNotEquals("user", placeorder.getText());
+		placeorder.name();
+		placeorder.country();
+		placeorder.city();
+		placeorder.creditCard();
+		placeorder.month();
+		placeorder.year();
+
+	}
+
+	@And("^click on purchase$")
+	public void click_on_purchase() throws Throwable {
+
+		logger.info("Purchase product");
+		Assert.assertTrue(true);
+		placeorder.purchase();
+
+	}
+
+	@Then("^click on ok$")
+	public void click_on_ok() throws Throwable {
+
+		screenshot.takeSnapShot("src\\test\\resources\\Screenshot\\Purchase.png");
+		placeorder.confirmOrder();
+		quit();
+
+	}
 }

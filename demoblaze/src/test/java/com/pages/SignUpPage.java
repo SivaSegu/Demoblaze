@@ -6,30 +6,35 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class SignUpPage {
-	@FindBy(id="signin2")
-	WebElement signupBtn;
-	@FindBy(id="sign-username")
-	WebElement userElement;
-	@FindBy(id="sign-password")
-	WebElement passwordElement;
-	@FindBy(xpath="//button[contains(text(),'Sign up')]")
+	@FindBy(id = "signin2")
+	WebElement signupbtn;
+	@FindBy(id = "sign-username")
+	WebElement userelement;
+	@FindBy(id = "sign-password")
+	WebElement passwordelement;
+	@FindBy(xpath = "//button[contains(text(),'Sign up')]")
 	WebElement signup;
+
 	public SignUpPage(WebDriver driver) {
-	PageFactory.initElements(driver, this);
+		PageFactory.initElements(driver, this);
 	}
-	//To click  on signup button
+
+	// To click on signup button
 	public void signUpBtn() {
-		signupBtn.click();
+		signupbtn.click();
 	}
-	//Enter username
+
+	// Enter username
 	public void setUserName(String username) {
-		userElement.sendKeys(username);
+		userelement.sendKeys(username);
 	}
-	//Enter password
+
+	// Enter password
 	public void setPassword(String password) {
-		passwordElement.sendKeys(password);
+		passwordelement.sendKeys(password);
 	}
-	//To click on signup
+
+	// To click on signup
 	public void signUp() {
 		signup.click();
 	}

@@ -4,8 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-
+import org.junit.Assert;
 
 import com.pages.BasePage;
 
@@ -14,58 +13,60 @@ import com.pages.PhonesPage;
 import com.utility.ScreenShot;
 import com.wrapperclass.BaseClass;
 
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 public class Phone_TC extends BaseClass {
 
-	PhonesPage phonePage;
-	ScreenShot screenShot;
-	BasePage basePage;
+	PhonesPage phonepage;
+	ScreenShot screenshot;
+	BasePage basepage;
 	final static Logger logger = LogManager.getLogger(Phone_TC.class.getName());
 
-	 @Given("^user click on phone$")
-	    public void user_click_on_phone() throws Throwable {
-		 launchApplication("chrome");
-		 logger.info("Demoblaze site launches");
-		 launchSite();
-		 
-			phonePage = new PhonesPage(driver);   
-			basePage=new BasePage(driver);
-			screenShot =new ScreenShot(driver);
-			logger.info("Click on mobile");
-			phonePage.mobile();
-	    }
+	@Given("^user click on phone$")
+	public void user_click_on_phone() throws Throwable {
+		launchApplication("chrome");
+		logger.info("Demoblaze site launches");
+		launchSite();
 
-	    @Then("^user click on the desired mobile phone$")
-	    public void user_click_on_the_desired_mobile_phone() throws Throwable {
-	    	Thread.sleep(5000);
-	    	logger.info("Select a mobie");
-	    	phonePage.selectMobile();
-	    }
+		phonepage = new PhonesPage(driver);
+		basepage = new BasePage(driver);
+		screenshot = new ScreenShot(driver);
+		logger.info("Click on mobile");
+		phonepage.mobile();
+	}
 
-	    @Then("^123user click o add to cart$")
-	    public void user_click_o_add_to_cart() throws Throwable {
-	    	Thread.sleep(5000);
-	    	logger.info("Add product to cart");
-	    	phonePage.cart();
-	    }
+	@When("^user click on the desired mobile phone$")
+	public void user_click_on_the_desired_mobile_phone() throws Throwable {
+		implicitWait();
+		System.out.println(phonepage.getMobile());
+		Assert.assertEquals("Sony xperia z5", phonepage.getMobile());
+		logger.info("Select a mobie");
+		phonepage.selectMobile();
 
-	    @Then("^123handle window alert$")
-	    public void handle_window_alert() throws Throwable {
-	    	Thread.sleep(5000);
-	    	logger.warn("Window alert");
-	    	windowAlert();
-	       
-	    }
+	}
 
+	@Then("^click on cart$")
+	public void click_on_cart_page() throws Throwable {
+		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		Assert.assertTrue(true);
+		basepage.cart();
+		Thread.sleep(2000);
+		screenshot.takeSnapShot("src\\test\\resources\\Screenshot\\Phone.png");
+		quit();
+	}
 
-	    @Then("^123click on cart page$")
-	    public void click_on_cart_page() throws Throwable {
-	    	driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-	    	basePage.cart();
-	    	Thread.sleep(3000);
-	    	screenShot.takeSnapShot("C:\\Users\\segus\\eclipse-workspace\\demoblaze\\src\\test\\resources\\Screenshot\\Phone.png");
-	    	quit();
-	    }
+	@And("^user clicks add to cart$")
+	public void user_click_o_add_to_cart() throws Throwable {
+
+		logger.info("Add product to cart");
+		phonepage.cart();
+		Thread.sleep(1000);
+		logger.warn("Window alert");
+		windowAlert();
+
+	}
+
 }

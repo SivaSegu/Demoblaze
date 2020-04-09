@@ -10,20 +10,21 @@ import org.openqa.selenium.WebDriver;
 
 public class ScreenShot {
 	WebDriver driver;
+
 	public ScreenShot(WebDriver driver) {
-		this.driver =driver;
+		this.driver = driver;
 	}
-	//To take a snap shot
+
+	// To take a snap shot
 	public void takeSnapShot(String path) {
-		TakesScreenshot screenshot=(TakesScreenshot)driver;
-		File Source =screenshot.getScreenshotAs(OutputType.FILE);
-		
+		TakesScreenshot screenshot = (TakesScreenshot) driver;
+		File Source = screenshot.getScreenshotAs(OutputType.FILE);
+
 		try {
-			FileUtils.copyFile(Source,new File(path));
+			FileUtils.copyFile(Source, new File(path));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 }

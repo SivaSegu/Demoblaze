@@ -10,11 +10,11 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class DataDriven {
-	
+
 	public String excel_username(int a) throws IOException {
-		
-		//To read and return username
-		FileInputStream fil = new FileInputStream(new File("demoblaze.xlsx"));
+
+		// To read and return username
+		FileInputStream fil = new FileInputStream(new File("src/test/resources/demoblaze.xlsx"));
 		XSSFWorkbook workbook = new XSSFWorkbook(fil);
 		XSSFSheet sheet = workbook.getSheet("Login");
 		int count = sheet.getLastRowNum();
@@ -30,7 +30,7 @@ public class DataDriven {
 	// TO read and return password
 	public String excel_password(int b) throws IOException {
 
-		FileInputStream fil = new FileInputStream(new File("demoblaze.xlsx"));
+		FileInputStream fil = new FileInputStream(new File("src/test/resources/demoblaze.xlsx"));
 		XSSFWorkbook workbook = new XSSFWorkbook(fil);
 		XSSFSheet sheet = workbook.getSheet("Login");
 		int count = sheet.getLastRowNum();
